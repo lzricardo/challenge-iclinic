@@ -6,5 +6,23 @@
   "repository": "git@github.com:lzricardo/challenge-iclinic.git",
   "author": "Luiz Ricardo <lzricardo.ecomp@gmail.com>",
   "license": "MIT",
-  "private": true
+  "scripts": {
+    "start": "./node_modules/pm2/bin/pm2-runtime index.js --name API",
+    "dev": "nodemon src/server.js --ignore __tests__",
+    "test": "jest"
+  },
+  "private": true,
+  "dependencies": {
+    "@sentry/node": "^5.12.3",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "pm2": "^4.2.3",
+    "sequelize": "^5.21.4",
+    "sqlite3": "^4.1.1"
+  },
+  "devDependencies": {
+    "jest": "^25.1.0",
+    "nodemon": "^2.0.2",
+    "sequelize-cli": "^5.5.1"
+  }
 }
