@@ -1,0 +1,10 @@
+{
+  "name": "challenge-iclinic",
+  "version": "1.0.0",
+  "description": "This repository contains the solution for IClinic's challenge",
+  "main": "index.js",
+  "repository": "git@github.com:lzricardo/challenge-iclinic.git",
+  "author": "Luiz Ricardo <lzricardo.ecomp@gmail.com>",
+  "license": "MIT",
+  "private": true
+}
