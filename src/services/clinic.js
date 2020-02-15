@@ -10,6 +10,7 @@ class ClinicService {
                     'Accept': 'Accept: application/json',
                     'Authorization': `Bearer ${process.env.CLINICS_API_TOKEN}`
                 },
+                json: true,
                 rejectUnauthorized: (process.env.APP_ENV !== 'development'),
                 timeout: process.env.CLINICS_API_TIMEOUT,
                 retry: {

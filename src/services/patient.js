@@ -10,6 +10,7 @@ class PatientService {
                     'Accept': 'Accept: application/json',
                     'Authorization': `Bearer ${process.env.PATIENTS_API_TOKEN}`
                 },
+                json: true,
                 rejectUnauthorized: (process.env.APP_ENV !== 'development'),
                 timeout: process.env.PATIENTS_API_TIMEOUT,
                 retry: {
