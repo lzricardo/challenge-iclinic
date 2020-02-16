@@ -105,3 +105,6 @@ dist
 
 #JetBrains file
 .idea
+
+#SQLite file
+*.sqlite

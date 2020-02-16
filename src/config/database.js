@@ -1,4 +1,4 @@
-require('environment');
+require('./environment');
 
 module.exports = {
     host: process.env.DB_HOST,
@@ -6,7 +6,7 @@ module.exports = {
     password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE,
     dialect: process.env.DB_DIALECT,
-    storage: './__test__/database.sql',
+    storage: process.env.DB_STORAGE_SQLITE,
     operatorsAliases: process.env.DB_OPERATORS_ALIASES,
     logging: false,
     define: {
