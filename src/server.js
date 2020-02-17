@@ -1,5 +1,10 @@
 require('./config/environment');
 
-const app = require('./app');
+global.sequelizeConn = require('./singletons/sequelize');
 
-app.listen(process.env.SERVER_PORT || 3000);
+const app = require('./app');
+const PORT = process.env.SERVER_PORT || 3000;
+
+app.listen(PORT, () => {
+    console.log(`IClinic\'s Prescriptions\'s API listening on port ${PORT}!`);
+});

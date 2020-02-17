@@ -1,4 +1,9 @@
- const express = require('express');
+const express = require('express');
+
+if (process.env.NODE_ENV === 'test') {
+    require('./config/environment');
+    global.sequelizeConn = require('./singletons/sequelize');
+}
 
 class AppController {
     constructor() {
@@ -13,7 +18,8 @@ class AppController {
     }
 
     routes() {
-        this.express.use(require('./routes'));
+        // this.express.use('/v1', require('./routes/v1'));
+        this.express.use('/v2', require('./routes/v2'));
     }
 }
 

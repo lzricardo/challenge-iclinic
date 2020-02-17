@@ -31,8 +31,8 @@ class PatientService {
             this.request({
                 url: `patients/${id}`
             })
-                .then(data => {
-                    resolve(data);
+                .then(response => {
+                    resolve(response.data);
                 })
                 .catch(error => {
                     reject(error);

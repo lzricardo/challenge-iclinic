@@ -29,10 +29,10 @@ class PhysicianService {
     getById(id) {
         return new Promise((resolve, reject) => {
             this.request({
-                url: `physicians/${id}`
+                url: `/physicians/${id}`
             })
-                .then(data => {
-                    resolve(data);
+                .then(response => {
+                    resolve(response.data);
                 })
                 .catch(error => {
                     reject(error);
