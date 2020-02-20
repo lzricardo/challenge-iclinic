@@ -8,8 +8,5 @@ const PrescriptionController = require('../app/controllers/PrescriptionControlle
 
 //Routes
 v2.post('/prescriptions', CheckPrescriptionPayload, PrescriptionController.store);
-v2.get('/prescriptions', (req, res) => {
-    res.status(200).send('HELLO');
-});
 
 module.exports = v2;

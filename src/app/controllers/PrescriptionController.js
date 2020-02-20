@@ -1,4 +1,6 @@
 const { validationResult } = require('express-validator');
+const ErrorMessageHelper = require('../../helpers/error-message');
+const RequestHelper = require('../../helpers/request');
 const ClinicService = require('../../services/clinic');
 const MetricService = require('../../services/metric');
 const PatientService = require('../../services/patient');
@@ -10,12 +12,9 @@ class PrescriptionController {
         const errors = validationResult(req);
 
         if (!errors.isEmpty()) {
-            return res.status(400).json({
-                error: {
-                    message: "malformed request",
-                    code: "01"
-                }
-            });
+            let statusCode = 400;
+
+            return res.status(statusCode).json(ErrorMessageHelper.process('RE', statusCode));
         }
 
         let body = req.body;
@@ -27,23 +26,15 @@ class PrescriptionController {
         try {
             physician = await PhysicianService.getById(body.physician.id);
         } catch (e) {
-            return res.status(e.status).json({
-                error: {
-                    message: e.message,
-                    code: e.code
-                }
-            });
+            let statusCode = RequestHelper.processError(e);
+            return res.status(statusCode).json(ErrorMessageHelper.process('PH', statusCode));
         }
 
         try {
             patient = await PatientService.getById(body.patient.id);
         } catch (e) {
-            return res.status(e.status).json({
-                error: {
-                    message: e.message,
-                    code: e.code
-                }
-            });
+            let statusCode = RequestHelper.processError(e);
+            return res.status(statusCode).json(ErrorMessageHelper.process('PA', statusCode));
         }
 
         try {
@@ -73,23 +64,15 @@ class PrescriptionController {
                     patient_phone: patient.phone
                 };
 
-                console.log('METRIC => ', metric);
-
                 await MetricService.send(metric);
             } catch (e) {
-                // res.status(e.status).json({
-                //     error: {
-                //         message: e.message,
-                //         code: e.code
-                //     }
-                // });
-
-                res.status(400);
-                throw new Error();
+                let statusCode = RequestHelper.processError(e);
+                res.status(statusCode).json(ErrorMessageHelper.process('ME', statusCode));
+                throw new Error(e);
             }
 
-            // Transaction has been committed
-            // result is whatever the result of the promise chain returned to the transaction callback
+            console.log('Committed database\'s operation');
+
             return res.status(200).json({
                 data: {
                     id: prescription.id,
@@ -105,8 +88,7 @@ class PrescriptionController {
                 }
             });
         }).catch(err => {
-            // Transaction has been rolled back
-            // err is whatever rejected the promise chain returned to the transaction callback
+            console.log('Rolled back database\'s operation');
             console.error(err);
         });
     }

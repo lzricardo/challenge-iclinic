@@ -85,55 +85,55 @@ describe('Prescription\'s persistence with your dependencies', () => {
         });
     });
 
-    // it('should be send message error for save prescription with physician not found', async () => {
-    //     const response = await request(app)
-    //         .post('/v2/prescriptions')
-    //         .send({
-    //             clinic_id: {
-    //                 id: 1
-    //             },
-    //             physician: {
-    //                 id: 1
-    //             },
-    //             patient: {
-    //                 id: 1
-    //             },
-    //             text: "Dipirona 1x ao dia"
-    //         });
-    //
-    //     expect(response.status).toBe(404)
-    //     expect(response.body).toEqual({
-    //         error: {
-    //             message: "physician not found",
-    //             code: "02"
-    //         }
-    //     });
-    // });
-    //
-    // it('should be send message error for save prescription with patient not found', async () => {
-    //     const response = await request(app)
-    //         .post('/v2/prescriptions')
-    //         .send({
-    //             clinic_id: {
-    //                 id: 1
-    //             },
-    //             physician: {
-    //                 id: 1
-    //             },
-    //             patient: {
-    //                 id: 1
-    //             },
-    //             text: "Dipirona 1x ao dia"
-    //         });
-    //
-    //     expect(response.status).toBe(404)
-    //     expect(response.body).toEqual({
-    //         error: {
-    //             message: "patient not found",
-    //             code: "03"
-    //         }
-    //     });
-    // });
+    it('should be send message error for save prescription with physician not found', async () => {
+        const response = await request(app)
+            .post('/v2/prescriptions')
+            .send({
+                clinic: {
+                    id: 1
+                },
+                physician: {
+                    id: 9999
+                },
+                patient: {
+                    id: 1
+                },
+                text: "Dipirona 1x ao dia"
+            });
+
+        expect(response.status).toBe(404)
+        expect(response.body).toEqual({
+            error: {
+                message: "physician not found",
+                code: "02"
+            }
+        });
+    });
+
+    it('should be send message error for save prescription with patient not found', async () => {
+        const response = await request(app)
+            .post('/v2/prescriptions')
+            .send({
+                clinic: {
+                    id: 1
+                },
+                physician: {
+                    id: 1
+                },
+                patient: {
+                    id: 9999
+                },
+                text: "Dipirona 1x ao dia"
+            });
+
+        expect(response.status).toBe(404)
+        expect(response.body).toEqual({
+            error: {
+                message: "patient not found",
+                code: "03"
+            }
+        });
+    });
 
     it('should be persist prescription with success', async () => {
         const response = await request(app)
