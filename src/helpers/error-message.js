@@ -10,17 +10,25 @@ const errorMessageMap = [
 
 class ErrorMessageHelper {
     static process(entity, statusCode) {
-        let label = entity + statusCode;
-        let errorMessage = this._search(label);
+        try {
+            let label = entity + statusCode;
+            let errorMessage = this._search(label);
 
-        return (errorMessage.length > 0) ? errorMessage[0][label] : null;
+            return (errorMessage.length > 0) ? errorMessage[0][label] : null;
+        } catch (e) {
+            console.error(e);
+        }
     }
 
     static _search(label) {
-        return errorMessageMap
-            .filter(errorMessage => {
-                return errorMessage.hasOwnProperty(label)
-            });
+        try {
+            return errorMessageMap
+                .filter(errorMessage => {
+                    return errorMessage.hasOwnProperty(label)
+                });
+        } catch (e) {
+            console.error(e);
+        }
     }
 }
 

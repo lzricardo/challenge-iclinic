@@ -1,4 +1,5 @@
 const express = require('express');
+const morgan = require('morgan');
 
 if (process.env.NODE_ENV === 'test') {
     require('./config/environment');
@@ -6,6 +7,8 @@ if (process.env.NODE_ENV === 'test') {
 
 class AppController {
     constructor() {
+        console.log('Initialize app');
+
         this.express = express();
 
         this.middlewares();
@@ -13,10 +16,15 @@ class AppController {
     }
 
     middlewares() {
+        console.log('Setup middlewares');
+
+        this.express.use(morgan('combined'));
         this.express.use(express.json());
     }
 
     routes() {
+        console.log('Setup routes');
+
         this.express.use(require('./routes/index'));
         // this.express.use('/v1', require('./routes/v1'));
         this.express.use('/v2', require('./routes/v2'));

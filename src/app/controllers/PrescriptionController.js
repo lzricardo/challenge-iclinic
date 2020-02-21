@@ -43,54 +43,58 @@ class PrescriptionController {
             getClinicError = true;
         }
 
-        return sequelize.transaction(t => {
-            return Prescription.create({
-                clinic_id: body.clinic.id,
-                physician_id: body.physician.id,
-                patient_id: body.patient.id,
-                text: body.text
-            }, {transaction: t});
-        }).then(async prescription => {
-            try {
-                let metric = {
-                    clinic_id: clinic.id,
-                    clinic_name: (getClinicError) ? null : clinic.name,
-                    physician_id: physician.id,
-                    physician_name: physician.fullName,
-                    physician_crm: physician.crm,
-                    patient_id: patient.id,
-                    patient_name: patient.fullName,
-                    patient_email: patient.email,
-                    patient_phone: patient.phone
-                };
+        try {
+            return sequelize.transaction(t => {
+                return Prescription.create({
+                    clinic_id: body.clinic.id,
+                    physician_id: body.physician.id,
+                    patient_id: body.patient.id,
+                    text: body.text
+                }, {transaction: t});
+            }).then(async prescription => {
+                try {
+                    let metric = {
+                        clinic_id: clinic.id,
+                        clinic_name: (getClinicError) ? null : clinic.name,
+                        physician_id: physician.id,
+                        physician_name: physician.fullName,
+                        physician_crm: physician.crm,
+                        patient_id: patient.id,
+                        patient_name: patient.fullName,
+                        patient_email: patient.email,
+                        patient_phone: patient.phone
+                    };
 
-                await MetricService.send(metric);
-            } catch (e) {
-                let statusCode = RequestHelper.processError(e);
-                res.status(statusCode).json(ErrorMessageHelper.process('ME', statusCode));
-                throw new Error(e);
-            }
-
-            console.log('Committed database\'s operation');
-
-            return res.status(200).json({
-                data: {
-                    id: prescription.id,
-                    clinic: {
-                        id: prescription.clinic_id
-                    },
-                    physician: {
-                        id: prescription.physician_id
-                    },
-                    patient: {
-                        id: prescription.patient_id
-                    }
+                    await MetricService.send(metric);
+                } catch (e) {
+                    let statusCode = RequestHelper.processError(e);
+                    res.status(statusCode).json(ErrorMessageHelper.process('ME', statusCode));
+                    throw new Error(e);
                 }
+
+                console.log('Committed database\'s operation');
+
+                return res.status(200).json({
+                    data: {
+                        id: prescription.id,
+                        clinic: {
+                            id: prescription.clinic_id
+                        },
+                        physician: {
+                            id: prescription.physician_id
+                        },
+                        patient: {
+                            id: prescription.patient_id
+                        }
+                    }
+                });
+            }).catch(err => {
+                console.log('Rolled back database\'s operation');
+                console.error(err);
             });
-        }).catch(err => {
-            console.log('Rolled back database\'s operation');
-            console.error(err);
-        });
+        } catch (e) {
+            console.error(e);
+        }
     }
 }
 

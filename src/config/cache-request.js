@@ -1,8 +1,7 @@
-// setup a cache object
 const cacheManager = require('cache-manager');
 const cache = cacheManager.caching({
     store: 'memory',
-    max: 500 // keep maximum 500 different URL responses
+    max: 500
 });
 
 module.exports = cache;
