@@ -88,7 +88,7 @@ describe('Prescription\'s persistence with your dependencies', () => {
                 code: "01"
             }
         });
-    });
+    }, 30000);
 
     it('should be send message error for save prescription with physician not found', async () => {
         const response = await request(app)
@@ -113,7 +113,7 @@ describe('Prescription\'s persistence with your dependencies', () => {
                 code: "02"
             }
         });
-    });
+    }, 30000);
 
     it('should be send message error for save prescription with patient not found', async () => {
         const response = await request(app)
@@ -138,7 +138,7 @@ describe('Prescription\'s persistence with your dependencies', () => {
                 code: "03"
             }
         });
-    });
+    }, 30000);
 
     it('should be persist prescription with success', async () => {
         const response = await request(app)
@@ -174,5 +174,5 @@ describe('Prescription\'s persistence with your dependencies', () => {
                 }
             }
         });
-    });
+    }, 30000);
 });
