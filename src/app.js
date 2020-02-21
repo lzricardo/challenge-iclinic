@@ -2,7 +2,6 @@ const express = require('express');
 
 if (process.env.NODE_ENV === 'test') {
     require('./config/environment');
-    global.sequelizeConn = require('./singletons/sequelize');
 }
 
 class AppController {

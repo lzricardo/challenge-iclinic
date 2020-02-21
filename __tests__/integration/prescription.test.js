@@ -1,6 +1,11 @@
 const request = require('supertest');
 const app = require('../../src/app');
 const { Prescription } = require('../../src/app/models');
+const truncate = require('../utils/truncate');
+
+beforeEach(async () => {
+    await truncate();
+});
 
 describe('Prescription\'s persistence with your dependencies', () => {
     it('should be send message error for save prescription with malformed request', async () => {

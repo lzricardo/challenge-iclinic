@@ -5,7 +5,7 @@ const ClinicService = require('../../services/clinic');
 const MetricService = require('../../services/metric');
 const PatientService = require('../../services/patient');
 const PhysicianService = require('../../services/physician');
-const Prescription = sequelizeConn.import('../models/Prescription');
+const { Prescription, sequelize } = require('../models');
 
 class PrescriptionController {
     async store(req, res) {
@@ -43,7 +43,7 @@ class PrescriptionController {
             getClinicError = true;
         }
 
-        return sequelizeConn.transaction(t => {
+        return sequelize.transaction(t => {
             return Prescription.create({
                 clinic_id: body.clinic.id,
                 physician_id: body.physician.id,
