@@ -1,6 +1,6 @@
+require('./config/error');
 require('./config/environment');
-
-global.sequelizeConn = require('./singletons/sequelize');
+require('./config/console');
 
 const app = require('./app');
 const PORT = process.env.SERVER_PORT || 3000;
