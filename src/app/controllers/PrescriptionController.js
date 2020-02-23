@@ -17,28 +17,33 @@ class PrescriptionController {
             return res.status(statusCode).json(ErrorMessageHelper.process('RE', statusCode));
         }
 
-        let body = req.body;
+        let {
+            physician: {id: physician_id},
+            patient: {id: patient_id},
+            clinic: {id: clinic_id},
+            text
+        } = req.body;
         let getClinicError = false;
         let clinic;
         let physician;
         let patient;
 
         try {
-            physician = await PhysicianService.getById(body.physician.id);
+            physician = await PhysicianService.getById(physician_id);
         } catch (e) {
             let statusCode = RequestHelper.processError(e);
             return res.status(statusCode).json(ErrorMessageHelper.process('PH', statusCode));
         }
 
         try {
-            patient = await PatientService.getById(body.patient.id);
+            patient = await PatientService.getById(patient_id);
         } catch (e) {
             let statusCode = RequestHelper.processError(e);
             return res.status(statusCode).json(ErrorMessageHelper.process('PA', statusCode));
         }
 
         try {
-            clinic = await ClinicService.getById(body.clinic.id);
+            clinic = await ClinicService.getById(clinic_id);
         } catch (e) {
             getClinicError = true;
         }
@@ -46,10 +51,10 @@ class PrescriptionController {
         try {
             return sequelize.transaction(t => {
                 return Prescription.create({
-                    clinic_id: body.clinic.id,
-                    physician_id: body.physician.id,
-                    patient_id: body.patient.id,
-                    text: body.text
+                    clinic_id,
+                    physician_id,
+                    patient_id,
+                    text
                 }, {transaction: t});
             }).then(async prescription => {
                 try {
