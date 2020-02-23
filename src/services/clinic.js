@@ -4,7 +4,7 @@ const rp = require('request-plus');
 class ClinicService {
     constructor() {
         try {
-            this.request = rp(({
+            this.request = rp({
                 defaults: {
                     baseUrl: process.env.CLINICS_API_URI,
                     headers: {
@@ -24,7 +24,7 @@ class ClinicService {
                         }
                     }
                 }
-            }));
+            });
         } catch (e) {
             console.error(e);
         }

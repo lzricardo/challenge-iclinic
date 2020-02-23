@@ -4,7 +4,7 @@ const rp = require('request-plus');
 class MetricService {
     constructor() {
         try {
-            this.request = rp(({
+            this.request = rp({
                 defaults: {
                     baseUrl: process.env.METRICS_API_URI,
                     headers: {
@@ -25,7 +25,7 @@ class MetricService {
                         }
                     }
                 }
-            }));
+            });
         } catch (e) {
             console.error(e);
         }
