@@ -1,4 +1,5 @@
 const express = require('express');
+const helmet = require('helmet');
 const morgan = require('morgan');
 
 if (process.env.NODE_ENV === 'test') {
@@ -18,6 +19,7 @@ class AppController {
     middlewares() {
         console.log('Setup middlewares');
 
+        this.express.use(helmet());
         this.express.use(morgan('combined'));
         this.express.use(express.json());
     }
